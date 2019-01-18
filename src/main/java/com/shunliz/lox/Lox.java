@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.shunliz.lox.TokenType.*;
+
 
 class Scanner {
 
@@ -261,10 +263,13 @@ public class Lox {
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
 
-        // For now, just print the tokens.
-        for (Token token : tokens) {
-            System.out.println(token);
-        }
+        Parser parser = new Parser(tokens);
+        Expr expression = parser.parse();
+
+        // Stop if there was a syntax error.
+        if (hadError) return;
+
+        System.out.println(new AstPrinter().print(expression));
     }
 
     static void error(int line, String message) {

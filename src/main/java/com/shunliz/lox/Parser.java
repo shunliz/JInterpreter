@@ -4,6 +4,21 @@ import java.util.List;
 
 import static com.shunliz.lox.TokenType.*;
 
+/*
+our grammar as below:
+
+expression     → equality ;
+equality       → comparison ( ( "!=" | "==" ) comparison )* ;
+comparison     → addition ( ( ">" | ">=" | "<" | "<=" ) addition )* ;
+addition       → multiplication ( ( "-" | "+" ) multiplication )* ;
+multiplication → unary ( ( "/" | "*" ) unary )* ;
+unary          → ( "!" | "-" ) unary
+               | primary ;
+primary        → NUMBER | STRING | "false" | "true" | "nil"
+               | "(" expression ")" ;
+
+*/
+
 class Parser {
     private static class ParseError extends RuntimeException {}
     private final List<Token> tokens;
@@ -122,7 +137,7 @@ class Parser {
             consume(RIGHT_PAREN, "Expect ')' after expression.");
             return new Expr.Grouping(expr);
         }
-        return null;
+        throw error(peek(), "Expect expression.");
 
     }
 
@@ -137,8 +152,34 @@ class Parser {
         return new ParseError();
     }
 
+    private void synchronize() {
+        advance();
 
+        while (!isAtEnd()) {
+            if (previous().type == SEMICOLON) return;
 
+            switch (peek().type) {
+                case CLASS:
+                case FUN:
+                case VAR:
+                case FOR:
+                case IF:
+                case WHILE:
+                case PRINT:
+                case RETURN:
+                    return;
+            }
 
+            advance();
+        }
+    }
+
+    Expr parse() {
+        try {
+            return expression();
+        } catch (ParseError error) {
+            return null;
+        }
+    }
 
 }
