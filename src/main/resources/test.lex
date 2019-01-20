@@ -24,3 +24,10 @@ var c = "global c";
 print a;
 print b;
 print c;
+
+print "================================================";
+if (1==2){
+    print "if ture";
+}else{
+    print "if false";
+}
