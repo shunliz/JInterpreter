@@ -27,22 +27,22 @@ class Interpreter implements Expr.Visitor<Object> {
             case EQUAL_EQUAL: return isEqual(left, right);
             case GREATER:
                 checkNumberOperands(expr.operator, left, right);
-                return (double)left > (double)right;
+                return (Double)left > (Double)right;
             case GREATER_EQUAL:
                 checkNumberOperands(expr.operator, left, right);
-                return (double)left >= (double)right;
+                return (Double)left >= (Double)right;
             case LESS:
                 checkNumberOperands(expr.operator, left, right);
-                return (double)left < (double)right;
+                return (Double)left < (Double)right;
             case LESS_EQUAL:
                 checkNumberOperands(expr.operator, left, right);
-                return (double)left <= (double)right;
+                return (Double)left <= (Double)right;
             case MINUS:
                 checkNumberOperands(expr.operator, left, right);
-                return (double)left - (double)right;
+                return (Double)left - (Double)right;
             case PLUS:
                 if (left instanceof Double && right instanceof Double) {
-                    return (double)left + (double)right;
+                    return (Double)left + (Double)right;
                 }
 
                 if (left instanceof String && right instanceof String) {
@@ -52,10 +52,10 @@ class Interpreter implements Expr.Visitor<Object> {
                         "Operands must be two numbers or two strings.");
             case SLASH:
                 checkNumberOperands(expr.operator, left, right);
-                return (double)left / (double)right;
+                return (Double)left / (Double)right;
             case STAR:
                 checkNumberOperands(expr.operator, left, right);
-                return (double)left * (double)right;
+                return (Double)left * (Double)right;
         }
 
         // Unreachable.
@@ -71,7 +71,7 @@ class Interpreter implements Expr.Visitor<Object> {
                 return !isTruthy(right);
             case MINUS:
                 checkNumberOperand(expr.operator, right);
-                return -(double)right;
+                return -(Double)right;
         }
 
         // Unreachable.
@@ -116,7 +116,7 @@ class Interpreter implements Expr.Visitor<Object> {
 
     private boolean isTruthy(Object object) {
         if (object == null) return false;
-        if (object instanceof Boolean) return (boolean)object;
+        if (object instanceof Boolean) return (Boolean)object;
         return true;
     }
 
