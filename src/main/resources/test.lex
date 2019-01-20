@@ -1,4 +1,4 @@
-(100-(2+3))*4/0;
+
 print "================================================";
 print "one";
 print true;
@@ -43,3 +43,9 @@ while (a < 10000) {
   a = b;
   b = temp + b;
 }
+print "================================================";
+fun sayHi(first, last) {
+  print "Hi, " + first + " " + last + "!";
+}
+
+sayHi("Dear", "Reader");
